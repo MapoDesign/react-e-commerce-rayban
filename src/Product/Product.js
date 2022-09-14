@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 
 const Product = ({nome, img, prezzo, children}) => {
-  const paramsHandle = (prezzo) => {
-    console.log(prezzo);
+  const [toggle,setToggle] = useState(true);
+  const paramsHandle = (nome,prezzo) => {
+    console.log('Inserito nel carrello '+nome + ' a '+prezzo + '€');
+    setToggle(!toggle);
+  }
+  const removeParamsHandle = (nome) => {
+    console.log('Rimosso '+nome + ' dal carrello');
+    setToggle(!toggle);
   }
   const eventHandle = (e) => {
     console.log(e.target.innerText);
@@ -16,12 +22,17 @@ const Product = ({nome, img, prezzo, children}) => {
         <p>{children}</p>
     </div>
     <div className="card-footer">
-        <button onClick={() => paramsHandle(prezzo)} href="#" className="btn btn-primary me-1">
-          Price {prezzo} &euro; 
-        </button>
-        <button onClick={eventHandle} href="#" className="btn btn-primary">
-          Buy
-        </button>
+          {
+            toggle? (
+              <button onClick={() => paramsHandle(nome, prezzo)} href="#" className="btn btn-primary me-1">
+                Buy {nome}
+              </button>
+            ) : (
+              <button onClick={() => removeParamsHandle(nome, prezzo)} href="#" className="btn btn-primary me-1">
+                Remuve {nome}
+              </button>
+            )
+          }
       </div>
     </section>
   );
